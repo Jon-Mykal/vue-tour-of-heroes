@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import * as mdl_heroes from '@/store/mdl_heroes'
 
 export default createStore({
   state: {
@@ -8,5 +9,6 @@ export default createStore({
   actions: {
   },
   modules: {
+    mdl_heroes
   }
 })
