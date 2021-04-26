@@ -1,10 +1,10 @@
 <template>
     <div>
         <h2>{{ capitalHeroName }} Details</h2>
-        <div><span>id: </span>{{hero.id}}</div>
+        <div><span>id: </span>{{heroItem.id}}</div>
         <div>
             <label for="name">Hero name: </label>
-            <input type="text" placeholder="name" v-model="hero.name" id="name">
+            <input type="text" placeholder="name" v-model="heroItem.name" id="name">
         </div>
     </div>
 </template>
@@ -14,7 +14,7 @@
 </style>
 
 <script lang="ts">
-import {computed, defineComponent, PropType} from 'vue'
+import {computed, defineComponent, PropType, ref} from 'vue'
 import { Hero } from '@/types/hero'
 export default defineComponent({
     props: {
@@ -24,11 +24,12 @@ export default defineComponent({
         }
     },
     setup(props, ctx){
+        let heroItem = ref(props.hero);
         const capitalHeroName = computed(() => {
-            return props.hero.name.toUpperCase();
+            return heroItem.value.name.toUpperCase();
         });
-
-        return { capitalHeroName }
+        
+        return { capitalHeroName, heroItem }
     }
 })
 </script>
