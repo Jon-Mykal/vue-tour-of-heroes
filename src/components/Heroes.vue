@@ -6,14 +6,7 @@
             <span class="badge">{{ hero.id }}</span> {{hero.name}}
         </li>
     </ul>
-        <section v-if="selectedHero.name">
-            <h2>{{ capitalHeroName }} Details</h2>
-            <div><span>id: </span>{{selectedHero.id}}</div>
-            <div>
-                <label for="name">Hero name: </label>
-                <input type="text" placeholder="name" v-model="selectedHero.name" id="hero-name">
-            </div>
-        </section>
+    <HeroDetail :hero="selectedHero" />
     </div>
 </template>
 
@@ -76,9 +69,11 @@ input {
 import {computed, defineComponent, PropType, ref} from 'vue'
 import { Hero } from '@/types/hero'
 import { useStore } from 'vuex';
-export default defineComponent({
-    props: {
+import HeroDetail from '@/components/HeroDetail.vue'
 
+export default defineComponent({
+    components: {
+        HeroDetail
     },
     setup(props, ctx){
 
