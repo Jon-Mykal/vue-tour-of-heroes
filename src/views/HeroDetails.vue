@@ -17,7 +17,7 @@ import { computed, defineComponent, PropType } from 'vue'
 import isEmpty from 'lodash/isEmpty'
 
 export default defineComponent({
-    name: "HeroDetail",
+    name: "HeroDetails",
     props: {
         hero: {
             type: Object as PropType<Hero>,
@@ -27,7 +27,6 @@ export default defineComponent({
     setup (props, ctx) {
        const capitalHeroName = computed(() => {
             let upperCasedName = "";
-            console.log(!isEmpty(props.hero));
             if(!isEmpty(props.hero)) {
                 upperCasedName = props.hero?.name?.toUpperCase() || "";
             }

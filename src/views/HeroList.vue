@@ -68,10 +68,12 @@ input {
 import {computed, defineComponent, PropType, ref} from 'vue'
 import { Hero } from '@/types/hero'
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
+    name: 'HeroList',
     setup(props, ctx){
-
+        let router = useRouter();
         let store = useStore();
         let heroes = store.getters['mdl_heroes/getAllHeroes'] as Hero[];
         let selectedHero = ref({} as Hero);
@@ -85,6 +87,7 @@ export default defineComponent({
 
         const onSelect = (hero: Hero) => {
             selectedHero.value = hero;
+            router.push({ name: 'HeroDetails', params: { id: hero.id }})
         };
         
         return { capitalHeroName, selectedHero, heroes, onSelect }

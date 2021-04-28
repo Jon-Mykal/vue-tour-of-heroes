@@ -1,9 +1,9 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link>
-  
-  </div>
   <h1>{{ title }}</h1>
+  <nav id="nav">
+    <router-link :to="{name: 'HeroList'}">Heroes</router-link>
+  <router-link :to="{name: 'Dashboard' }">Dashboard</router-link>
+  </nav>
   <router-view/>
 </template>
 
