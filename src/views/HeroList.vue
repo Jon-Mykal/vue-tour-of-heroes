@@ -1,12 +1,12 @@
 <template>
-    <div>
-    <h2>My Heroes</h2>
-    <ul class="heroes">
-        <li v-for="hero in heroes" :key="hero.id" @click="onSelect(hero)" :class="{ selected: hero === selectedHero}">
-            <span class="badge">{{ hero.id }}</span> {{hero.name}}
-        </li>
-    </ul>
-    </div>
+      <div>
+      <h2>My Heroes</h2>
+      <ul class="heroes">
+          <li v-for="hero in heroes" :key="hero.id" @click="onSelect(hero)" :class="{ selected: hero === selectedHero}">
+              <span class="badge">{{ hero.id }}</span> {{hero.name}}
+          </li>
+      </ul>
+      </div>
 </template>
 
 <style scoped>
@@ -65,17 +65,21 @@ input {
 </style>
 
 <script lang="ts">
-import {computed, defineComponent, PropType, ref} from 'vue'
+import {computed, defineComponent, PropType, Ref, ref} from 'vue'
 import { Hero } from '@/types/hero'
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import Heroes from '@/components/Heroes.vue'
 
 export default defineComponent({
     name: 'HeroList',
     setup(props, ctx){
         let router = useRouter();
         let store = useStore();
-        let heroes = store.getters['mdl_heroes/getAllHeroes'] as Hero[];
+        let heroes: Ref<Hero[]> = ref([] as Hero[]); 
+        store.dispatch('mdl_heroes/getAllHeroes', null, {root: true}).then((res) => {
+          heroes.value = res;
+        });
         let selectedHero = ref({} as Hero);
         const capitalHeroName = computed(() => {
             let upperCasedName = "";

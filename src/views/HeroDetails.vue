@@ -9,6 +9,7 @@
             </div>
         </section>
         <button @click="goBack()">go back</button>
+        <button @click="save()">save</button>
     </div>
 </template>
 
@@ -28,13 +29,17 @@ export default defineComponent({
         }
     },
     setup (props, ctx) {
+        const store = useStore();
         const router = useRouter();
         let pageFunctions = reactive({
             goBack(){
                 router.back();
+            },
+            save(){
+
             }
         })
-        let store = useStore();
+     
         let foundHero = ref(store.getters["mdl_heroes/getHeroById"](props.id) as Hero | undefined);
        const capitalHeroName = computed(() => {
             let upperCasedName = "";

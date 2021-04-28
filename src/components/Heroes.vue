@@ -1,14 +1,12 @@
 <template>
-    <div>
-    <h2>My Heroes</h2>
-    <ul class="heroes">
-        <li v-for="hero in heroes" :key="hero.id">
-            <router-link :to="{ name: 'HeroDetails', params: { id: +hero.id } }">
-                <span class="badge">{{ hero.id }}</span> {{hero.name}}
-            </router-link>
-        </li>
-    </ul>
-    </div>
+      <div>
+      <h2>My Heroes</h2>
+      <ul class="heroes">
+          <li v-for="hero in heroes" :key="hero.id" @click="onSelect(hero)" :class="{ selected: hero === selectedHero}">
+              <span class="badge">{{ hero.id }}</span> {{hero.name}}
+          </li>
+      </ul>
+      </div>
 </template>
 
 <style scoped>
@@ -70,12 +68,14 @@ input {
 import {computed, defineComponent, PropType, ref} from 'vue'
 import { Hero } from '@/types/hero'
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
-    setup(props, ctx){
-
+    name: 'HeroList',
+    async setup(props, ctx){
+        let router = useRouter();
         let store = useStore();
-        let heroes = store.getters['mdl_heroes/getAllHeroes'] as Hero[];
+        let heroes = (await store.dispatch('mdl_heroes/getAllHeroes', null, {root: true})) as Hero[];
         let selectedHero = ref({} as Hero);
         const capitalHeroName = computed(() => {
             let upperCasedName = "";
@@ -87,6 +87,7 @@ export default defineComponent({
 
         const onSelect = (hero: Hero) => {
             selectedHero.value = hero;
+            router.push({ name: 'HeroDetails', params: { id: hero.id }})
         };
         
         return { capitalHeroName, selectedHero, heroes, onSelect }

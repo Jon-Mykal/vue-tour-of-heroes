@@ -1,8 +1,9 @@
-import { createStore } from 'vuex'
-import * as mdl_heroes from '@/store/mdl_heroes'
+import { createStore, StoreOptions } from 'vuex'
+import {mdl_heroes} from '@/store/mdl_heroes'
 
-export default createStore({
-  state: {
+const store: StoreOptions<RootState> = {
+  state:  {
+    version: '1.0.0'
   },
   mutations: {
   },
@@ -11,4 +12,9 @@ export default createStore({
   modules: {
     mdl_heroes
   }
-})
+}
+export default createStore(store)
+
+export interface RootState {
+  version: string;
+}

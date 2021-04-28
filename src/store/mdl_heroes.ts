@@ -1,19 +1,36 @@
+import {heroService} from '../services/heroService';
 import { Hero } from '@/types/hero'
+import { ActionTree, GetterTree, Module } from 'vuex';
+import { RootState } from '.';
+
+// const heroSvc: HeroService = new HeroService();
 export const namespaced = true;
 
+
 export const state: HeroesState = {
-    HEROES: [
-        { id: 11, name: 'Dr Nice' },
-        { id: 12, name: 'Narco' },
-        { id: 13, name: 'Bombasto' },
-        { id: 14, name: 'Celeritas' },
-        { id: 15, name: 'Magneta' },
-        { id: 16, name: 'RubberMan' },
-        { id: 17, name: 'Dynama' },
-        { id: 18, name: 'Dr IQ' },
-        { id: 19, name: 'Magma' },
-        { id: 20, name: 'Tornado' }
-    ] as Hero[]
+    HEROES: [] as Hero[]
+}
+
+export const mutations = {
+    LOAD_HEROES(state: HeroesState, heroes: Hero[]) {
+        state.HEROES = heroes;
+    }
+}
+
+export const actions: ActionTree<HeroesState, RootState> = {
+    async getAllHeroes({commit}: {commit: Function} ) {
+        let heroes = await heroService.getHeroes();
+        commit('LOAD_HEROES', heroes.data);
+        return heroes.data;
+    },
+    async getHeroById({commit, getters}: {commit: Function, getters: any}, id: number ) {
+        let hero: Hero = getters.getHeroById(id);
+        if(!hero) {
+            hero = (await heroService.getHeroById(id)).data;
+        }
+
+        return hero;
+    }
 }
 
 export const getters = {
@@ -25,6 +42,15 @@ export const getters = {
     }
 }
 
+
+export const mdl_heroes: Module<HeroesState, RootState> = {
+    namespaced,
+    state,
+    getters,
+    actions,
+    mutations
+}
 interface HeroesState {
     HEROES: Hero[]
 }
+
