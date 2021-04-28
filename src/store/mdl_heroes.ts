@@ -19,6 +19,9 @@ export const state: HeroesState = {
 export const getters = {
     getAllHeroes(state: HeroesState): Hero[] {
         return state.HEROES;
+    },
+    getHeroById: (state: HeroesState) => (id: Number): Hero | undefined => {
+        return state.HEROES.find(h => h.id === id);
     }
 }
 

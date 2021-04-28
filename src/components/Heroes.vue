@@ -2,8 +2,10 @@
     <div>
     <h2>My Heroes</h2>
     <ul class="heroes">
-        <li v-for="hero in heroes" :key="hero.id" @click="onSelect(hero)" :class="{ selected: hero === selectedHero}">
-            <span class="badge">{{ hero.id }}</span> {{hero.name}}
+        <li v-for="hero in heroes" :key="hero.id">
+            <router-link :to="{ name: 'HeroDetails', params: { id: +hero.id } }">
+                <span class="badge">{{ hero.id }}</span> {{hero.name}}
+            </router-link>
         </li>
     </ul>
     </div>

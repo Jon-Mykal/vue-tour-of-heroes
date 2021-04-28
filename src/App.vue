@@ -38,8 +38,13 @@ body, input[type="text"], button {
 }
 
 #nav a {
-  font-weight: bold;
-  color: #2c3e50;
+  padding: 1rem;
+  text-decoration: none;
+  margin-top: 10px;
+  display: inline-block;
+  background-color: #e8e8e8;
+  color: #3d3d3d;
+  border-radius: 4px;  color: #2c3e50;
 }
 
 #nav a.router-link-exact-active {

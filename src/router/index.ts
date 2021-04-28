@@ -18,7 +18,13 @@ const routes: Array<RouteRecordRaw> = [
     path: '/heroes/:id',
     name: 'HeroDetails',
     component: HeroDetails,
-    props: true
+    props: (route) => {
+      // Props function mode to transform the parameter to number. 
+      let heroId = route.params.id as string;
+      return {
+        id: parseInt(heroId)
+      }
+    }
   },
   {
     path: '',
