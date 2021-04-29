@@ -14,6 +14,12 @@ export const state: HeroesState = {
 export const mutations = {
     LOAD_HEROES(state: HeroesState, heroes: Hero[]) {
         state.HEROES = heroes;
+    },
+    ADD_HERO(state: HeroesState, hero: Hero) {
+        state.HEROES.push(hero);
+    },
+    DELETE_HERO(state: HeroesState, hero: Hero) {
+        state.HEROES = state.HEROES.filter(h => h.id !== hero.id);
     }
 }
 
@@ -30,6 +36,18 @@ export const actions: ActionTree<HeroesState, RootState> = {
         }
 
         return hero;
+    },
+    async updateHero({commit}: {commit: Function}, hero: Hero) {
+        await heroService.updateHero(hero);
+    },
+    async addHero({state, commit}: {state: HeroesState, commit: Function}, hero: Hero) {
+        hero.id = heroService.genId(state.HEROES);
+        await heroService.addHero(hero);
+        commit('ADD_HERO', hero);
+    },
+    async deleteHero({state, commit}: {state: HeroesState, commit: Function}, hero: Hero) {
+        await heroService.deleteHero(hero);
+        commit('DELETE_HERO', hero);
     }
 }
 

@@ -31,14 +31,7 @@ export default defineComponent({
     setup (props, ctx) {
         const store = useStore();
         const router = useRouter();
-        let pageFunctions = reactive({
-            goBack(){
-                router.back();
-            },
-            save(){
 
-            }
-        })
      
         let foundHero = ref(store.getters["mdl_heroes/getHeroById"](props.id) as Hero | undefined);
        const capitalHeroName = computed(() => {
@@ -48,6 +41,17 @@ export default defineComponent({
             }
             return upperCasedName;
         });
+
+        let pageFunctions = reactive({
+            goBack(){
+                router.back();
+            },
+            save(){
+                store.dispatch('mdl_heroes/updateHero', foundHero.value).then(() => {
+                    this.goBack();
+                });
+            }
+        })
 
         return { ...toRefs(pageFunctions), capitalHeroName, isEmpty, foundHero }
     }

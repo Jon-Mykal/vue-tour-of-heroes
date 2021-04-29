@@ -2,11 +2,23 @@
       <div>
       <h2>My Heroes</h2>
       <ul class="heroes">
-          <li v-for="hero in heroes" :key="hero.id" @click="onSelect(hero)" :class="{ selected: hero === selectedHero}">
-              <span class="badge">{{ hero.id }}</span> {{hero.name}}
+          <li v-for="hero in heroes" :key="hero.id">
+            <router-link :to="{ name: 'HeroDetails', params: { id: hero.id } }">
+              <span class="badge"> {{ hero.id }} </span>{{ hero.name }} 
+            </router-link>
+            <button class="delete" @click="deleteHero(hero)">x</button>
           </li>
       </ul>
       </div>
+    <section>
+      <label id="new-hero">Hero name: {{ heroName }}</label>
+      <input for="new-hero" v-model="heroName"/>
+
+      <!-- (click) passes input value to add() and then clears the input -->
+      <button class="add-button" @click="addHero(heroName)">
+        Add hero
+      </button>
+    </section>
 </template>
 
 <style scoped>
@@ -77,9 +89,12 @@ export default defineComponent({
         let router = useRouter();
         let store = useStore();
         let heroes: Ref<Hero[]> = ref([] as Hero[]); 
-        store.dispatch('mdl_heroes/getAllHeroes', null, {root: true}).then((res) => {
-          heroes.value = res;
-        });
+        let loadHeroes = () => {
+          store.dispatch('mdl_heroes/getAllHeroes', null, {root: true}).then((res) => {
+            heroes.value = res;
+          });
+        };
+        loadHeroes();
         let selectedHero = ref({} as Hero);
         const capitalHeroName = computed(() => {
             let upperCasedName = "";
@@ -88,13 +103,18 @@ export default defineComponent({
             }
             return upperCasedName;
         });
-
-        const onSelect = (hero: Hero) => {
-            selectedHero.value = hero;
-            router.push({ name: 'HeroDetails', params: { id: hero.id }})
+      let heroName = ref("");
+        const addHero = (name: string) => {
+            if (!name) { return; }
+            store.dispatch('mdl_heroes/addHero', {name} as Hero, {root: true});
         };
+        const deleteHero = (hero: Hero) => {
+          store.dispatch("mdl_heroes/deleteHero", hero, {root: true}).then(() => {
+              loadHeroes();
+          });
+        }
         
-        return { capitalHeroName, selectedHero, heroes, onSelect }
+        return { capitalHeroName, selectedHero, heroes, addHero, deleteHero, heroName }
     }
 })
 </script>

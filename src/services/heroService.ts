@@ -26,7 +26,15 @@ import axios, { AxiosInstance, AxiosPromise } from 'axios'
         }
 
         updateHero(hero: Hero) {
-            return this.apiClient.put('/heroes', hero);
+            return this.apiClient.put(`/heroes/${hero.id}`, hero);
+        }
+
+        addHero(hero: Hero) {
+            return this.apiClient.post(`/heroes`, hero);
+        }
+
+        deleteHero(hero: Hero) {
+            return this.apiClient.delete(`/heroes/${hero.id}`);
         }
     }
 
