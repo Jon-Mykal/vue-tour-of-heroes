@@ -48,6 +48,11 @@ export const actions: ActionTree<HeroesState, RootState> = {
     async deleteHero({state, commit}: {state: HeroesState, commit: Function}, hero: Hero) {
         await heroService.deleteHero(hero);
         commit('DELETE_HERO', hero);
+    },
+    async searchHeroes({state, commit}: {state: HeroesState, commit: Function}, term: string) {
+        let heroes = await heroService.searchHeroes(term);
+        commit('LOAD_HEROES', heroes.data);
+        return heroes.data;
     }
 }
 

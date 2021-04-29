@@ -6,15 +6,21 @@
                 {{ hero.name }}
             </router-link>
         </section>
+
+        <HeroSearch />
     </div>
 </template>
 
 <script lang="ts">
+import HeroSearch  from '@/components/HeroSearch.vue'
 import { defineComponent, ref } from 'vue'
 import { Hero } from '@/types/hero'
 import { useStore } from 'vuex';
 
 export default defineComponent({
+    components: {
+        HeroSearch
+    },
     setup () {
         let store = useStore();
         let heroes = store.getters['mdl_heroes/getAllHeroes'] as Hero[];

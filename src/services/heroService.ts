@@ -1,5 +1,5 @@
 import { Hero } from '@/types/hero';
-import axios, { AxiosInstance, AxiosPromise } from 'axios'
+import axios, { AxiosInstance, AxiosPromise, AxiosResponse } from 'axios'
 
 
     export class HeroService {
@@ -35,6 +35,14 @@ import axios, { AxiosInstance, AxiosPromise } from 'axios'
 
         deleteHero(hero: Hero) {
             return this.apiClient.delete(`/heroes/${hero.id}`);
+        }
+
+        searchHeroes(term: string): AxiosPromise<Hero[]>{
+            if (!term.trim()) {
+                return new Promise((resolve, reject) => { resolve({data: {} } as AxiosResponse<Hero[]>)});
+            }
+
+            return this.apiClient.get<Hero[]>(`/heroes?name=${term}`);
         }
     }
 
