@@ -1,5 +1,5 @@
 # vue-tour-of-heroes
-This is a tutorial based on Google's Angular Tutorial that was done using Vue 3 with the new Composition API
+This is a project based on Google's Angular Tutorial (https://angular.io/tutorial) that was done using Vue 3 with the new Composition API along with a few features such as Vue Router and Vuex. This was done to utilize all the concepts I learned on Vue Mastery (http://vuemastery.com/) to see how they fit in a simple project.
 ## Project setup
 ```
 npm install
