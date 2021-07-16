@@ -1,5 +1,5 @@
 # vue-tour-of-heroes
-
+This is a tutorial based on Google's Angular Tutorial that was done using Vue 3 with the new Composition API
 ## Project setup
 ```
 npm install
